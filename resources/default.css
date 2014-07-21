@@ -1,0 +1,38 @@
+/* Screen width: 320px, height: 480px */
+
+#mainView {
+  background-color: white;
+}
+#timerLabel {
+  top: 160px;
+  left: 60px;
+  width: 200px;
+  height: 60px;
+  font-size: 60px;
+  text-align: center;
+}
+#timerButton {
+  /* 160px + 60px + 1px (padding) */
+  top: 230px;
+  left: 60px;
+  width: 200px;
+  height: 40px;
+  background-color: green;
+  color: white;
+}
+#currentTaskLabel {
+  top: 360px;
+  left: 60px;
+  width: 200px;
+  height: 30px;
+  font-size: 20px;
+  color: #cccccc;
+}
+#taskLabel {
+  top: 400px;
+  left: 60px;
+  width: 200px;
+  height: 30px;
+  font-size: 20px;
+  color: #333333;
+}

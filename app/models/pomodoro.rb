@@ -1,0 +1,3 @@
+class Pomodoro < CDQManagedObject
+  
+end
