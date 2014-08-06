@@ -14,4 +14,5 @@ Motion::Project::App.setup do |app|
   
   app.pixatefreestyle.framework = 'vendor/PixateFreestyle.framework'
   
+  app.interface_orientations= [:portrait]
 end

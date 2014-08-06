@@ -1,5 +1,7 @@
 /* Screen width: 320px, height: 480px */
-
+/*
+muted text: #AAAAAA;
+*/
 #mainView {
   background-color: white;
 }
@@ -26,7 +28,7 @@
   width: 200px;
   height: 30px;
   font-size: 20px;
-  color: #cccccc;
+  color: #AAAAAA;
 }
 #taskLabel {
   top: 400px;
@@ -35,4 +37,15 @@
   height: 30px;
   font-size: 20px;
   color: #333333;
+}
+.emptyLabel {
+  top: 200px;  
+  left: 0;
+  
+  width: 320px;
+  height: 30px;
+
+  font-size: 18px;
+  color: #AAAAAA;
+  text-align: center;
 }

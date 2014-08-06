@@ -41,9 +41,12 @@ class MainController < UIViewController
   end
   
   def tasks_button
-    @tasks_button ||= UIBarButtonItem.alloc.
-      initWithBarButtonSystemItem(UIBarButtonSystemItemOrganize, target: self, 
-      action: 'tasks_button_tapped:')
+    @tasks_button ||= UIBarButtonItem.alloc.initWithImage(tasks_image, 
+      style: UIBarButtonItemStylePlain, target: self, action: 'tasks_button_tapped:')
+  end
+  
+  def tasks_image
+    @tasks_image ||= UIImage.imageNamed('todo.png')
   end
   
   # ===========
