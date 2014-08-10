@@ -11,7 +11,7 @@ end
 # Load a private Rakefile with sensitive keys etc.
 begin
   load File.join(File.dirname(__FILE__), "PrivateRakefile")
-# rescue LoadError
+rescue LoadError
 end
 
 Motion::Project::App.setup do |app|
