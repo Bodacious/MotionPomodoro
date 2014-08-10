@@ -10,11 +10,11 @@ class TaskCell < UITableViewCell
   
   def configure_for_task(task)
     textLabel.text = task.name
-    add_pomodoro_view(16 || task.pomodoros.count)
-    puts "added #{task.pomodoros.count} Pomos to cell"
+    add_pomodoro_view(task.pomodoros.count)
   end
   
   def prepareForReuse
+    super
     textLabel.text = ''    
     self.subviews.select { |sub| sub.is_a?(PomodoroView) }.each(&:removeFromSuperview)
   end

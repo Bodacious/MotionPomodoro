@@ -13,4 +13,12 @@ class Task < CDQManagedObject
     @current ||= is_current.first
   end
   
+  def self.reset_current
+    @current = nil
+  end
+  
+  def complete_pomodoros
+    pomodoros.select(&:complete?)
+  end
+  
 end

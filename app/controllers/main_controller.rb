@@ -25,7 +25,7 @@ class MainController < UIViewController
   
   def viewDidAppear(animated)
     super
-    task_label.text = Task.current.name if Task.current
+    task_label.text = Task.current ? Task.current.name : MainView::TASK_LABEL_DEFAULT_TEXT
   end
   
   # ==============
@@ -42,10 +42,6 @@ class MainController < UIViewController
   
   def task_label
     view.task_label
-  end
-  
-  def current_task_label
-    view.current_task_label
   end
   
   def tasks_button

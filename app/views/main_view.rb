@@ -6,13 +6,15 @@ class MainView < UIView
   
   TIMER_BUTTON_LABEL_SELECTED_TITLE = "Interrupt!"  
   
+  TASK_LABEL_DEFAULT_TEXT = 'n/a'
+  
   def initWithFrame(frame)
     super.tap do
       self.styleId = 'mainView'
       addSubview(timer_label)
       addSubview(timer_button)
       addSubview(task_label)
-      addSubview(current_task_label)
+      addSubview(task_header_label)
     end
   end
   
@@ -36,13 +38,13 @@ class MainView < UIView
   def task_label
     @task_label ||= UILabel.alloc.initWithFrame(CGRectZero).tap do |label|
       label.styleId = 'taskLabel'
-      label.text = 'n/a'
+      label.text = TASK_LABEL_DEFAULT_TEXT
     end
   end
   
-  def current_task_label
-    @current_task_label ||= UILabel.alloc.initWithFrame(CGRectZero).tap do |label|
-      label.styleId = 'currentTaskLabel'
+  def task_header_label
+    @task_header_label ||= UILabel.alloc.initWithFrame(CGRectZero).tap do |label|
+      label.styleId = 'taskHeaderLabel'
       label.text = 'Current task:'
     end
   end

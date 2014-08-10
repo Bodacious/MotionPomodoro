@@ -51,8 +51,9 @@ class TasksController < UITableViewController
   # =======================
  
   def alertView(alert_view, clickedButtonAtIndex: index_path)
-    text_field = alert_view.textFieldAtIndex(0)
-    text = text_field.text
+    text_field      = alert_view.textFieldAtIndex(0)
+    text            = text_field.text
+    text_field.text = ''
     if text.to_s.length > 0
       NSLog("Saving new Task: #{text}")  
       Task.create(name: text) 
@@ -61,7 +62,6 @@ class TasksController < UITableViewController
     else
       NSLog("Not saving Task as text label was empty.")
     end
-
   end
   
   # =======================
@@ -100,6 +100,24 @@ class TasksController < UITableViewController
     1
   end
   
+  def tableView(table_view, canEditRowAtIndexPath: index_path)
+    true
+  end  
+  
+  def tableView(table_view,commitEditingStyle:editing_style, forRowAtIndexPath:index_path)
+    fade = UITableViewRowAnimationFade
+    if editing_style == UITableViewCellEditingStyleDelete
+      task = Task.all[index_path.row]
+      task.destroy
+      cdq.save
+      Task.reset_current
+      if Task.any?
+        tableView.deleteRowsAtIndexPaths([index_path], withRowAnimation: fade)
+      else
+        tableView.reloadRowsAtIndexPaths([index_path], withRowAnimation: UITableViewRowAnimationFade)      
+      end
+    end
+  end
   
   private
   

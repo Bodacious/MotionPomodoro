@@ -4,7 +4,6 @@ module ActsAsPomodoroParentView
     count.times do 
       pomodoro_view = PomodoroView.alloc.initWithFrame(CGRectZero)
       if respond_to?(:contentView)
-        NSLog("Content View")
         contentView.addSubview(pomodoro_view)
       else
         addSubview(pomodoro_view)

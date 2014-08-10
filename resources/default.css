@@ -26,8 +26,8 @@ button#timerButton {
   color: white;
   background-color: rgba(0,127,0,1);  
 }
-#currentTaskLabel {
-  top: 360px;
+#taskHeaderLabel {
+  top: 375px;
   left: 60px;
   width: 200px;
   height: 30px;
@@ -173,15 +173,14 @@ button#timerButton {
   top: 48px;
   left: 290px;
 }
-.taskCell .pomodoroView:nth-of-type(13) {
-  background-color: transparent;
-}
-.taskCell .pomodoroView:nth-of-type(14) {
-  background-color: transparent;
-}
-.taskCell .pomodoroView:nth-of-type(15) {
-  background-color: transparent;
-}
+
+/*
+  Hide these - they're too wide for the cell!
+  One should never have more than a few pomodoros per task anyway
+*/
+.taskCell .pomodoroView:nth-of-type(13),
+.taskCell .pomodoroView:nth-of-type(14),
+.taskCell .pomodoroView:nth-of-type(15),
 .taskCell .pomodoroView:nth-of-type(16) {
   background-color: transparent;
 }
