@@ -4,6 +4,8 @@ gem 'rake'
 # Add your dependencies here:
 gem 'cdq'
 
-gem 'cocoapods'
-gem 'motion-cocoapods'
 gem 'motion-pixatefreestyle'
+
+# Used in PrivateRakefile
+gem 'motion-cocoapods'
+gem 'motion-testflight'

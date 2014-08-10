@@ -45,6 +45,7 @@ GEM
       cocoapods (>= 0.32.1)
     motion-pixatefreestyle (2.1)
       sass
+    motion-testflight (1.5)
     motion-yaml (1.2)
     multi_json (1.10.1)
     nap (0.8.0)
@@ -66,7 +67,7 @@ PLATFORMS
 
 DEPENDENCIES
   cdq
-  cocoapods
   motion-cocoapods
   motion-pixatefreestyle
+  motion-testflight
   rake
