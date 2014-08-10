@@ -6,13 +6,13 @@ class UIColor
 
   
   def self.pomo_green_color
-    @pomo_green_color ||= UIColor.colorWithRed(0.0, green: 0.502, blue: 0.0, alpha: 1.0)
+    @pomo_green_color ||= UIColor.colorWithRed(0.0, green: 0.666, blue: 0.0, alpha: 1.0)
   end
   
   def self.pomo_red_color
-    @pomo_red_color ||= UIColor.colorWithRed(0.5, green: 0.0, blue: 0.0, alpha: 0.0)
+    @pomo_red_color ||= UIColor.colorWithRed(0.666, green: 0.0, blue: 0.0, alpha: 1.0)
   end
-  
+
   def self.print_rgba_for_color(color)
     red   = Pointer.new(:float)
     green = Pointer.new(:float)
@@ -20,7 +20,7 @@ class UIColor
     alpha = Pointer.new(:float)
     
     color.getRed(red, green: green, blue: blue, alpha: alpha)
-    puts "red: #{red.value}, green: #{green.value}, blue: #{blue.value}"
+    NSLog "red: #{red.value}, green: #{green.value}, blue: #{blue.value}"
   end
   
 

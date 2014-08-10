@@ -11,6 +11,7 @@ schema "0.1.0 initial" do
   entity "Task" do
     
     string :name, optional: false
+    boolean :current, default: false, optional: false
     boolean :complete, default: false, optional: false
     has_many :pomodoros
   end

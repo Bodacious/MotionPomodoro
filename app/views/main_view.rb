@@ -1,5 +1,11 @@
 class MainView < UIView
   
+  include ActsAsPomodoroParentView
+  
+  TIMER_BUTTON_LABEL_NORMAL_TITLE = 'Start Timer'
+  
+  TIMER_BUTTON_LABEL_SELECTED_TITLE = "Interrupt!"  
+  
   def initWithFrame(frame)
     super.tap do
       self.styleId = 'mainView'
@@ -20,9 +26,10 @@ class MainView < UIView
   end
   
   def timer_button
-    @timer_button ||= UIButton.buttonWithType(UIButtonTypeRoundedRect).tap do |button|
-      button.styleId = 'timerButton'
-      button.setTitle('Start Timer', forState: UIControlStateNormal)
+    @timer_button ||= TimerButton.buttonWithType(UIButtonTypeCustom).tap do |button|
+      button.styleId    = 'timerButton'
+      button.setTitle(TIMER_BUTTON_LABEL_NORMAL_TITLE, forState: UIControlStateNormal)
+      button.setTitle(TIMER_BUTTON_LABEL_SELECTED_TITLE, forState: UIControlStateSelected)
     end
   end
   

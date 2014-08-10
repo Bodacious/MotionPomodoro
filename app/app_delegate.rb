@@ -28,7 +28,7 @@ class AppDelegate
       setTitleTextAttributes(text_atts, forState: UIControlStateNormal)
     
     nav_controller.navigationBar.titleTextAttributes = text_atts
-    nav_controller.navigationBar.barTintColor        = UIColor.redColor  
+    nav_controller.navigationBar.barTintColor        = UIColor.pomo_red_color
     nav_controller.navigationBar.tintColor           = UIColor.whiteColor
   end
   

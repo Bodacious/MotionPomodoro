@@ -1,29 +1,37 @@
 class MainController < UIViewController
   
-  SECONDS_IN_25_MINS = 1500
+  SECONDS_IN_25_MINS = RUBYMOTION_ENV == 'development' ? 5 : 1500
   
   attr_accessor :pomodoro_timer, :timer_count
-  
+    
   # ==================
   # = View Lifecycle =
   # ==================
-  
+    
   def loadView
     self.view = MainView.alloc.initWithFrame(UIScreen.mainScreen.bounds)
   end
   
   def viewDidLoad
-    super.tap do
-      self.navigationItem.rightBarButtonItem = tasks_button
-      timer_button.addTarget(self, action: 'timer_button_tapped:', 
-        forControlEvents: UIControlEventTouchUpInside)
-    end
+    super
+    self.title = "Pomo-Todo"
+    self.navigationItem.rightBarButtonItem = tasks_button
+    timer_button.addTarget(self, action: 'timer_button_tapped:', 
+      forControlEvents: UIControlEventTouchUpInside)
+    Pomodoro.today.each do |pomodoro|
+      view.add_pomodoro_view if pomodoro.complete?
+    end      
+  end
+  
+  def viewDidAppear(animated)
+    super
+    task_label.text = Task.current.name if Task.current
   end
   
   # ==============
   # = Properties =
   # ==============
-  
+    
   def timer_label
     view.timer_label
   end
@@ -49,6 +57,12 @@ class MainController < UIViewController
     @tasks_image ||= UIImage.imageNamed('todo.png')
   end
   
+  def alert_view
+    @alert_view ||= UIAlertView.alloc.initWithTitle("Pomodoro Complete!", 
+      message: "Time to take a short break.", delegate: self, 
+      cancelButtonTitle: "OK", otherButtonTitles: nil)
+  end
+  
   # ===========
   # = Actions =
   # ===========
@@ -60,14 +74,18 @@ class MainController < UIViewController
   
   def timer_button_tapped(sender)
     if timer_active?
-      timer_button.backgroundColor = UIColor.pomo_green_color
-      timer_label.textColor = UIColor.pomo_grey_color
+      Pomodoro.current.finish
+      Pomodoro.current = nil
+      timer_button.selected = false
       pomodoro_timer.invalidate
       self.timer_count = 0
+      
+      timer_label.textColor = UIColor.pomo_grey_color      
       update_timer_label
     else
-      timer_button.backgroundColor = UIColor.pomo_red_color
-      timer_button.titleLabel.text = "Interrupt!"
+      Pomodoro.current = Pomodoro.create(started_at: Time.now, task: Task.current)
+      cdq.save      
+      timer_button.selected = true
       timer_label.textColor = UIColor.pomo_green_color
       self.timer_count = SECONDS_IN_25_MINS
       # Update the label immediately, so there's no delay
@@ -78,7 +96,20 @@ class MainController < UIViewController
     end
   end
   
+  # =======================
+  # = UIAlertViewDelegate =
+  # =======================
+  
+  def alertView(alertView, didDismissWithButtonIndex: button_index)
+    view.add_pomodoro_view
+    Pomodoro.current.finish 
+    Pomodoro.current = nil
+    
+    timer_button.selected = false    
+  end
+  
   private
+  
   
   def timer_active?
     pomodoro_timer && pomodoro_timer.valid?
@@ -87,7 +118,10 @@ class MainController < UIViewController
   def decrement_timer(sender)
     self.timer_count -= 1
     update_timer_label
-    pomodoro_timer.invalidate if timer_count < 0
+    if timer_count <= 0
+      pomodoro_timer.invalidate      
+      alert_view.show
+    end
   end
   
   def update_timer_label
@@ -116,6 +150,14 @@ class MainController < UIViewController
       secs = '00'
     end
     "%02d:%02d" % [mins, secs]
+  end
+  
+  def setup_timer_button(to_active)
+    if to_active
+      timer_button.highlighted = true
+    else
+      timer_button.highlighted = false
+    end
   end
   
 end

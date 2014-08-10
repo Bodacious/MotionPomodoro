@@ -2,6 +2,10 @@
 /*
 muted text: #AAAAAA;
 */
+button image-view {
+  display: none;
+}
+
 #mainView {
   background-color: white;
 }
@@ -13,14 +17,14 @@ muted text: #AAAAAA;
   font-size: 60px;
   text-align: center;
 }
-#timerButton {
+button#timerButton {
   /* 160px + 60px + 1px (padding) */
   top: 230px;
   left: 60px;
   width: 200px;
   height: 40px;
-  background-color: green;
   color: white;
+  background-color: rgba(0,127,0,1);  
 }
 #currentTaskLabel {
   top: 360px;
@@ -48,4 +52,136 @@ muted text: #AAAAAA;
   font-size: 18px;
   color: #AAAAAA;
   text-align: center;
+}
+
+.pomodoroView {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: rgba(170,0,0,1);
+}
+.pomodoroView:nth-of-type(1) {
+  top: 290px;
+  left: 60px;
+}
+.pomodoroView:nth-of-type(2) {
+  top: 290px;
+  left: 85px;
+}
+.pomodoroView:nth-of-type(3) {
+  top: 290px;
+  left: 110px;
+}
+.pomodoroView:nth-of-type(4) {
+  top: 290px;
+  left: 135px;
+}
+.pomodoroView:nth-of-type(5) {
+  top: 290px;
+  left: 160px;
+}
+.pomodoroView:nth-of-type(6) {
+  top: 290px;
+  left: 185px;
+}
+.pomodoroView:nth-of-type(7) {
+  top: 290px;
+  left: 210px;
+}
+.pomodoroView:nth-of-type(8) {
+  top: 290px;
+  left: 235px;
+}
+.pomodoroView:nth-of-type(9) {
+  top: 315px;
+  left: 60px;
+}
+.pomodoroView:nth-of-type(10) {
+  top: 315px;
+  left: 85px;
+}
+.pomodoroView:nth-of-type(11) {
+  top: 315px;
+  left: 110px;
+}
+.pomodoroView:nth-of-type(12) {
+  top: 315px;
+  left: 135px;
+}
+.pomodoroView:nth-of-type(13) {
+  top: 315px;
+  left: 160px;
+}
+.pomodoroView:nth-of-type(14) {
+  top: 315px;
+  left: 185px;
+}
+.pomodoroView:nth-of-type(15) {
+  top: 315px;
+  left: 210px;
+}
+.pomodoroView:nth-of-type(16) {
+  top: 315px;
+  left: 235px;
+}
+
+.taskCell .pomodoroView:nth-of-type(1) {
+  top: 48px;
+  left: 15px;
+}
+.taskCell .pomodoroView:nth-of-type(2) {
+  top: 48px;
+  left: 40px;
+}
+.taskCell .pomodoroView:nth-of-type(3) {
+  top: 48px;
+  left: 65px;
+}
+.taskCell .pomodoroView:nth-of-type(4) {
+  top: 48px;
+  left: 90px;
+}
+.taskCell .pomodoroView:nth-of-type(5) {
+  top: 48px;
+  left: 115px;
+}
+.taskCell .pomodoroView:nth-of-type(6) {
+  top: 48px;
+  left: 140px;
+}
+.taskCell .pomodoroView:nth-of-type(7) {
+  top: 48px;
+  left: 165px;
+}
+.taskCell .pomodoroView:nth-of-type(8) {
+  top: 48px;
+  left: 190px;
+}
+.taskCell .pomodoroView:nth-of-type(9) {
+  top: 48px;
+  left: 215px;
+}
+.taskCell .pomodoroView:nth-of-type(10) {
+  top: 48px;
+  left: 240px;
+}
+.taskCell .pomodoroView:nth-of-type(11) {
+  top: 48px;
+  left: 265px;
+}
+.taskCell .pomodoroView:nth-of-type(12) {
+  top: 48px;
+  left: 290px;
+}
+.taskCell .pomodoroView:nth-of-type(13) {
+  background-color: transparent;
+}
+.taskCell .pomodoroView:nth-of-type(14) {
+  background-color: transparent;
+}
+.taskCell .pomodoroView:nth-of-type(15) {
+  background-color: transparent;
+}
+.taskCell .pomodoroView:nth-of-type(16) {
+  background-color: transparent;
 }

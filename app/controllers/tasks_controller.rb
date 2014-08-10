@@ -6,21 +6,23 @@ class TasksController < UITableViewController
   # ==================
   
   def viewDidLoad
+    NSLog "viewDidLoad:"
+    super
     self.title = "Tasks"
     [EmptyCell, TaskCell].each do |cell_class|
       tableView.registerClass(cell_class, forCellReuseIdentifier: cell_class.name)
     end
     navigationItem.rightBarButtonItem = add_button
   end
-  
+
   # ==============
   # = Properties =
   # ==============
   
   def add_button
     @add_button ||= UIBarButtonItem.alloc.
-    initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target: self, 
-    action: 'add_button_tapped:')
+      initWithBarButtonSystemItem(UIBarButtonSystemItemAdd, target: self, 
+      action: 'add_button_tapped:')
   end
   
   def task_alert_view
@@ -70,11 +72,16 @@ class TasksController < UITableViewController
     if tasks_list_empty?
       table_view.dequeueReusableCellWithIdentifier(EmptyCell.name)
     else
-      task = tasks[index_path.row]
       table_view.dequeueReusableCellWithIdentifier(TaskCell.name).tap do |cell|
-        cell.textLabel.text = task.name
+        task = tasks[index_path.row]
+        cell.configure_for_task(task)
       end
     end
+  end
+  
+  def tableView(table_view, didSelectRowAtIndexPath: index_path)
+    Task.current = Task.all[index_path.row]
+    navigationController.popViewControllerAnimated(true)
   end
   
   # =========================
@@ -82,7 +89,7 @@ class TasksController < UITableViewController
   # =========================
   
   def tableView(table_view, heightForRowAtIndexPath: index_path)
-    tasks_list_empty? ? tableView.frame.size.height : 60
+    tasks_list_empty? ? tableView.frame.size.height : 75
   end
   
   def tableView(table_view, numberOfRowsInSection: section)
