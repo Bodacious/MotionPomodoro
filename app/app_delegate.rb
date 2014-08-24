@@ -1,15 +1,21 @@
 class AppDelegate
   
   include CDQ  
-    
-  attr_reader :window, :main_controller, :nav_controller
-
-  def application(application, didFinishLaunchingWithOptions:launchOptions)    
-    @window          = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    @main_controller = MainController.alloc.initWithNibName(nil, bundle: nil)
-    @nav_controller  = UINavigationController.alloc.
+  
+  def window
+    @window ||= UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+  end
+  
+  def main_controller
+    @main_controller ||= MainController.alloc.initWithNibName(nil, bundle: nil)
+  end
+  
+  def nav_controller
+    @nav_controller ||= UINavigationController.alloc.
       initWithRootViewController(main_controller)
-      
+  end
+
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
     cdq.setup
     setup_pixate
     setup_UI_defaults
@@ -35,7 +41,7 @@ class AppDelegate
   def setup_pixate
     PixateFreestyle.initializePixateFreestyle
     PXStylesheet.clearCache
-    # PixateFreestyle.updateStylesForAllViews
     PixateFreestyle.refreshStylesWithOrientationChange = true
   end
+  
 end

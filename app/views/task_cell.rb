@@ -16,7 +16,10 @@ class TaskCell < UITableViewCell
   def prepareForReuse
     super
     textLabel.text = ''    
-    self.subviews.select { |sub| sub.is_a?(PomodoroView) }.each(&:removeFromSuperview)
+    pomodoro_subviews = contentView.subviews.select do |sub|
+      sub.is_a?(PomodoroView)
+    end
+    pomodoro_subviews.each(&:removeFromSuperview)
   end
   
 end

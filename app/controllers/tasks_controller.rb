@@ -1,12 +1,10 @@
 class TasksController < UITableViewController
   
-  
   # ==================
   # = View Lifecycle =
   # ==================
   
   def viewDidLoad
-    NSLog "viewDidLoad:"
     super
     self.title = "Tasks"
     [EmptyCell, TaskCell].each do |cell_class|
@@ -42,7 +40,6 @@ class TasksController < UITableViewController
   # ===========
   
   def add_button_tapped(sender)
-    NSLog("add_button_tapped:#{sender}")
     task_alert_view.show
   end
   
@@ -52,13 +49,12 @@ class TasksController < UITableViewController
  
   def alertView(alert_view, clickedButtonAtIndex: index_path)
     text_field      = alert_view.textFieldAtIndex(0)
-    text            = text_field.text
-    text_field.text = ''
-    if text.to_s.length > 0
-      NSLog("Saving new Task: #{text}")  
-      Task.create(name: text) 
+    if text_field.text.to_s.length > 0
+      NSLog("Saving new Task: #{text_field.text}")  
+      Task.create(name: text_field.text) 
       cdq.save
       tableView.reloadData      
+      text_field.text = ''
     else
       NSLog("Not saving Task as text label was empty.")
     end
@@ -105,19 +101,21 @@ class TasksController < UITableViewController
   end  
   
   def tableView(table_view,commitEditingStyle:editing_style, forRowAtIndexPath:index_path)
-    fade = UITableViewRowAnimationFade
     if editing_style == UITableViewCellEditingStyleDelete
       task = Task.all[index_path.row]
       task.destroy
       cdq.save
       Task.reset_current
       if Task.any?
-        tableView.deleteRowsAtIndexPaths([index_path], withRowAnimation: fade)
+        tableView.deleteRowsAtIndexPaths([index_path], 
+          withRowAnimation: UITableViewRowAnimationFade)
       else
-        tableView.reloadRowsAtIndexPaths([index_path], withRowAnimation: UITableViewRowAnimationFade)      
+        tableView.reloadRowsAtIndexPaths([index_path], 
+          withRowAnimation: UITableViewRowAnimationFade)      
       end
     end
   end
+  
   
   private
   

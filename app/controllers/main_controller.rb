@@ -1,8 +1,6 @@
 class MainController < UIViewController
   
-  SECONDS_IN_25_MINS = RUBYMOTION_ENV == 'development' ? 5 : 1500
-  
-  attr_accessor :pomodoro_timer, :timer_count
+  attr_accessor :pomodoro_timer
     
   # ==================
   # = View Lifecycle =
@@ -14,7 +12,7 @@ class MainController < UIViewController
   
   def viewDidLoad
     super
-    self.title = "Pomo-Todo"
+    self.title = "Pomotion"
     self.navigationItem.rightBarButtonItem = tasks_button
     timer_button.addTarget(self, action: 'timer_button_tapped:', 
       forControlEvents: UIControlEventTouchUpInside)
@@ -69,26 +67,12 @@ class MainController < UIViewController
   end
   
   def timer_button_tapped(sender)
-    if timer_active?
-      Pomodoro.current.finish
-      Pomodoro.current = nil
-      timer_button.selected = false
-      pomodoro_timer.invalidate
-      self.timer_count = 0
-      
-      timer_label.textColor = UIColor.pomo_grey_color      
-      update_timer_label
+    if pomodoro_timer && pomodoro_timer.valid?
+      Pomodoro.finish_current_and_reset
+      pomodoro_timer.invalidate      
     else
-      Pomodoro.current = Pomodoro.create(started_at: Time.now, task: Task.current)
-      cdq.save      
-      timer_button.selected = true
-      timer_label.textColor = UIColor.pomo_green_color
-      self.timer_count = SECONDS_IN_25_MINS
-      # Update the label immediately, so there's no delay
-      update_timer_label
-      self.pomodoro_timer = NSTimer.timerWithTimeInterval(1, target: self, 
-        selector: 'decrement_timer:', userInfo: nil, repeats: true)
-      NSRunLoop.currentRunLoop.addTimer(pomodoro_timer, forMode: NSDefaultRunLoopMode)
+      create_new_pomodoro
+      start_new_pomodoro_timer
     end
   end
   
@@ -100,60 +84,50 @@ class MainController < UIViewController
     view.add_pomodoro_view
     Pomodoro.current.finish 
     Pomodoro.current = nil
-    
     timer_button.selected = false    
   end
   
-  private
+  # =========================
+  # = PomodoroTimerDelegate =
+  # =========================  
   
-  
-  def timer_active?
-    pomodoro_timer && pomodoro_timer.valid?
+  def pomodoro_timer_did_start(pomodoro_timer)
+    update_timer_label
+    timer_button.selected = true    
   end
     
-  def decrement_timer(sender)
-    self.timer_count -= 1
+  def pomodoro_timer_did_invalidate(pomodoro_timer)
     update_timer_label
-    if timer_count <= 0
-      pomodoro_timer.invalidate      
-      alert_view.show
-    end
+    timer_button.selected = false
   end
   
+  def pomodoro_timer_did_decrement(pomodoro_timer)
+    update_timer_label
+  end
+
+  def pomodoro_timer_did_finish(pomodoro_timer)
+    pomodoro_timer.invalidate      
+    alert_view.show    
+  end
+  
+  
+  private
+
+
   def update_timer_label
-    if timer_count % 10 == 0
-      timer_label.textColor = color_for_timer_count
-    end
-    timer_label.text = timer_text_value_from_timer_count
+    timer_label.textColor = TimerColor.new(pomodoro_timer.count).color
+    timer_label.text      = TimerTextValue.new(pomodoro_timer.count).to_s
+  end
+      
+  def create_new_pomodoro
+    Pomodoro.current = Pomodoro.create(started_at: Time.now, task: Task.current)
+    cdq.save
   end
   
-  def color_for_timer_count
-    if timer_count && timer_count > 0
-      proportion = Rational(timer_count, SECONDS_IN_25_MINS).to_f.round(2)
-      color = UIColor.new_from_two_colors(UIColor.pomo_red_color, 
-        UIColor.pomo_green_color, proportion: proportion)
-    else
-      UIColor.pomo_grey_color
-    end
-  end
-  
-  def timer_text_value_from_timer_count
-    if timer_count && timer_count > 0
-      mins = timer_count / 60
-      secs = timer_count % 60
-    else
-      mins = '00'
-      secs = '00'
-    end
-    "%02d:%02d" % [mins, secs]
-  end
-  
-  def setup_timer_button(to_active)
-    if to_active
-      timer_button.highlighted = true
-    else
-      timer_button.highlighted = false
-    end
+  def start_new_pomodoro_timer
+    self.pomodoro_timer = PomodoroTimer.new
+    pomodoro_timer.delegate = self
+    pomodoro_timer.start
   end
   
 end

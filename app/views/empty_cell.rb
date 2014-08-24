@@ -3,10 +3,9 @@ class EmptyCell < UITableViewCell
   def initWithStyle(style, reuseIdentifier: reuseIdentifier)
     super.tap do
       self.styleClass = 'emptyCell'
-      addSubview(empty_label)
+      contentView.addSubview(empty_label)
     end
   end
-  
   
   def empty_label
     @empty_label ||= UILabel.alloc.initWithFrame(CGRectZero).tap do |label|

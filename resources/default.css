@@ -57,8 +57,7 @@ button#timerButton {
 .pomodoroView {
   width: 24px;
   height: 24px;
-  border-radius: 12px;
-  background-color: rgba(170,0,0,1);
+  background-color: transparent;
 }
 .pomodoroView:nth-of-type(1) {
   top: 290px;
